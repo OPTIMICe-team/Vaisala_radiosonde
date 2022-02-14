@@ -8,8 +8,8 @@
 # Author: Leonie von Terzi
 # date: 20220210
 
-pathPro=/home/lvonterz/radiosondes/ # path to processing skripts
-filesRadiosonde=/data/obs/site/jue/radiosondes/Vaisala/ # path to vaisala radiosone mwx folder
+pathPro=/home/lvonterz/radiosondes/ #/work/lvonterz/radiosond_tests/ #/home/lvonterz/radiosondes/ # path to processing skripts
+pathRadiosonde=/data/obs/site/jue/radiosondes/Vaisala/ # path to vaisala radiosone mwx folder
 
 cd $pathPro
 # this will soon be updated to process all files on a certain day
@@ -17,7 +17,13 @@ date=20220108 # date to process
 time=134904 # time of start
 fileID=JOYCE # fileID in the beginning of mwx file name
 
+files2process=${pathRadiosonde}${fileID}_${date}*.mwx
+echo $files2process
+
+for filename in $files2process; do
+  echo ${filename%.*}
 # if not logged in as hatpro:
-sshpass -p "{hatpro_password}" ssh -X hatpro@broebroe 'bash -s' < createNC.sh ${date}_${time} $fileID $pathPro $filesRadiosonde
+  sshpass -p "2many1nst" ssh -X hatpro@broebroe 'bash -s' < createNC.sh $filename $pathPro $pathRadiosonde # ${date}_${time} $fileID $pathPro $filesRadiosonde
 # if logged in as hatpro
 #bash createNC.sh ${date}_${time} $fileID $pathPro $filesRadiosonde
+done

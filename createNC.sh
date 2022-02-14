@@ -8,27 +8,30 @@
 # Author: Leonie von Terzi
 # Date: 2022-02-10
 
-date_time=$1
-fileID=$2
-pathPro=$3
-pathRadiosonde=$4
-
+#date_time=$1
+#fileID=$2
+filemwx=$1
+pathPro=$2
+pathRadiosonde=$3
+fileID=${filemwx%.*}
+echo $fileID
 # make mwx into zip file so we can open it
-cp ${pathRadiosonde}${fileID}_${date_time}.mwx  ${pathRadiosonde}${fileID}_${date_time}.zip
+cp $filemwx ${fileID}.zip #${pathRadiosonde}${fileID}_${date_time}.mwx  ${pathRadiosonde}${fileID}_${date_time}.zip
+
 #if [[ "${pathRadiosonde}${fileID}_${date_time}" == * ]]; then
 #    echo ${pathRadiosonde}${fileID}_${date_time} already there, now removing the file
     
 #else
 # remove potential old file unzipped files
-rm -r ${pathRadiosonde}${fileID}_${date_time}
-echo now unzipping ${pathRadiosonde}${fileID}_${date_time}.zip
+rm -r ${fileID} #${pathRadiosonde}${fileID}_${date_time}
+echo now unzipping ${fileID}.zip
 #unzip the zip file
-unzip ${pathRadiosonde}${fileID}_${date_time}.zip -d ${pathRadiosonde}${fileID}_${date_time}/
+unzip ${fileID}.zip -d ${fileID}/
 #fi
 cd $pathPro
 # now execute the python skript
-python3 xml2netcdf.py ${pathRadiosonde}${fileID}_${date_time},${pathRadiosonde},${date_time}
+python3 xml2netcdf.py ${fileID},${pathRadiosonde} #,${date_time}
 
 #remove the zip file and the file in which the zip was unzipped.
-rm -r ${pathRadiosonde}${fileID}_${date_time}
-rm -r ${pathRadiosonde}${fileID}_${date_time}.zip
+rm -r ${fileID}
+rm -r ${fileID}.zip

@@ -41,7 +41,11 @@ def varAttr(data,var_info):
 
 # input give by the bash skript, otherwise comment this line and give the pathFile, outPath and date_time yourself. 
 #outPath: path where to save the nc file, pathFile: path to xml files, date_time: date and time where the radiosonde was launched, used in naming the nc-file.
-pathFile, outPath, date_time = argv[1].split(',') # I need to pass day_number:0:CEL for reprocessing the CEL measurements today    
+pathFile, outPath = argv[1].split(',') # I need to pass day_number:0:CEL for reprocessing the CEL measurements today    
+
+date_time = pathFile.split('/')[-1].split('JOYCE_')[-1]
+print(date_time)
+#quit()
 
 # sounding data:
 tree = ET.parse(pathFile+'/SynchronizedSoundingData.xml') # parse the xml file
