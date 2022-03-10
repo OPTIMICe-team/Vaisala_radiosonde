@@ -7,6 +7,14 @@
 # output: netcdf file 
 # Author: Leonie von Terzi
 # date: 20220210
+echo "type USERNAME"
+read USERNAME
+
+echo "type password"
+read -s PASS
+
+echo "type PC name"
+read PCNAME
 
 pathPro=/home/lvonterz/radiosondes/ #/work/lvonterz/radiosond_tests/ #/home/lvonterz/radiosondes/ # path to processing skripts
 pathRadiosonde=/data/obs/site/jue/radiosondes/Vaisala/ # path to vaisala radiosone mwx folder
@@ -23,7 +31,7 @@ echo $files2process
 for filename in $files2process; do
   echo ${filename%.*}
 # if not logged in as hatpro:
-  sshpass -p "2many1nst" ssh -X hatpro@broebroe 'bash -s' < createNC.sh $filename $pathPro $pathRadiosonde # ${date}_${time} $fileID $pathPro $filesRadiosonde
+  sshpass -p "${PASS}" ssh -X ${USERNAME}@${PCNAME} 'bash -s' < createNC.sh $filename $pathPro $pathRadiosonde # ${date}_${time} $fileID $pathPro $filesRadiosonde
 # if logged in as hatpro
 #bash createNC.sh ${date}_${time} $fileID $pathPro $filesRadiosonde
 done
